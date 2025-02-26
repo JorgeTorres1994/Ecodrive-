@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Controller;
+use Config\Database;
+
+class AdminController extends Controller
+{
+
+    public function dashboard()
+    {
+        $db = Database::connect();
+
+        $data['title'] = "Dashboard";
+        $data['totalPremios'] = $db->table('premios')->countAll();
+        $data['totalSorteos'] = $db->table('sorteos')->countAll();
+        $data['totalParticipantes'] = $db->table('participantes')->countAll();
+        $data['totalGanadores'] = $db->table('ganadores')->countAll();
+
+        return view('admin/dashboard', $data);
+    }
+}
