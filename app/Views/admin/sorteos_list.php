@@ -3,10 +3,6 @@
 <?= $this->section('content') ?>
 <h2 class="text-center my-4">Gestión de Sorteos</h2>
 
-<a href="<?= base_url('/admin/sorteos/nuevo') ?>" class="btn btn-primary mb-3">Crear Sorteo Conductores</a>
-<a href="<?= base_url('/admin/sorteos/nuevo') ?>" class="btn btn-secondary mb-3">Crear Sorteo Pasajeros</a>
-<a href="<?= base_url('/admin/sorteos/nuevo') ?>" class="btn btn-primary mb-3">Crear Sorteo Gran Premio</a>
-
 <div class="row">
     <div class="col-md-8">
         <?php foreach ($sorteos as $sorteo): ?>
@@ -19,7 +15,8 @@
                             <?= ucfirst($sorteo['estado']) ?>
                         </span>
                     </p>
-                    <a href="<?= base_url('/admin/sorteos/realizar/' . $sorteo['id']) ?>" class="btn btn-success">Realizar Sorteo</a>
+                    <!-- <a href="= base_url('/admin/sorteos/realizar/' . $sorteo['id']) ?>" class="btn btn-success">Realizar Sorteo</a> -->
+                    <button id="btn-realizar-sorteo" class="btn btn-success">Realizar Sorteo</button>
                     <a href="<?= base_url('/admin/sorteos/eliminar/' . $sorteo['id']) ?>" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
@@ -49,13 +46,14 @@
                         <ul class="list-group">
                             <?php foreach ($premios as $premio): ?>
                                 <?php if ($premio['tipo'] == 'conductor'): ?>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <li class="list-group-item d-flex align-items-center justify-content-between premio-item">
                                         <div class="d-flex align-items-center">
                                             <img src="<?= base_url($premio['imagen']) ?>" alt="<?= esc($premio['titulo']) ?>" width="50" height="50" class="me-2 rounded">
                                             <?= esc($premio['titulo']) ?>
                                         </div>
                                         <button class="btn btn-sm btn-primary ms-auto select-premio" data-id="<?= $premio['id'] ?>" data-titulo="<?= esc($premio['titulo']) ?>">Seleccionar</button>
                                     </li>
+
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -66,13 +64,14 @@
                         <ul class="list-group">
                             <?php foreach ($premios as $premio): ?>
                                 <?php if ($premio['tipo'] == 'pasajero'): ?>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <li class="list-group-item d-flex align-items-center justify-content-between premio-item">
                                         <div class="d-flex align-items-center">
                                             <img src="<?= base_url($premio['imagen']) ?>" alt="<?= esc($premio['titulo']) ?>" width="50" height="50" class="me-2 rounded">
                                             <?= esc($premio['titulo']) ?>
                                         </div>
                                         <button class="btn btn-sm btn-primary ms-auto select-premio" data-id="<?= $premio['id'] ?>" data-titulo="<?= esc($premio['titulo']) ?>">Seleccionar</button>
                                     </li>
+
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -83,13 +82,14 @@
                         <ul class="list-group">
                             <?php foreach ($premios as $premio): ?>
                                 <?php if ($premio['tipo'] == 'gran premio'): ?>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <li class="list-group-item d-flex align-items-center justify-content-between premio-item">
                                         <div class="d-flex align-items-center">
                                             <img src="<?= base_url($premio['imagen']) ?>" alt="<?= esc($premio['titulo']) ?>" width="50" height="50" class="me-2 rounded">
                                             <?= esc($premio['titulo']) ?>
                                         </div>
                                         <button class="btn btn-sm btn-primary ms-auto select-premio" data-id="<?= $premio['id'] ?>" data-titulo="<?= esc($premio['titulo']) ?>">Seleccionar</button>
                                     </li>
+
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -117,10 +117,11 @@
                         <ul class="list-group">
                             <?php foreach ($participantes as $participante): ?>
                                 <?php if ($participante['tipo'] == 'conductor'): ?>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <li class="list-group-item d-flex align-items-center justify-content-between participante-item">
                                         <span><?= esc($participante['nombre_completo']) ?> (<?= esc($participante['dni']) ?>)</span>
                                         <button class="btn btn-sm btn-success ms-auto select-participante" data-id="<?= $participante['id'] ?>" data-nombre="<?= esc($participante['nombre_completo']) ?>">Seleccionar</button>
                                     </li>
+
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -131,10 +132,11 @@
                         <ul class="list-group">
                             <?php foreach ($participantes as $participante): ?>
                                 <?php if ($participante['tipo'] == 'pasajero'): ?>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <li class="list-group-item d-flex align-items-center justify-content-between participante-item">
                                         <span><?= esc($participante['nombre_completo']) ?> (<?= esc($participante['dni']) ?>)</span>
                                         <button class="btn btn-sm btn-success ms-auto select-participante" data-id="<?= $participante['id'] ?>" data-nombre="<?= esc($participante['nombre_completo']) ?>">Seleccionar</button>
                                     </li>
+
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -144,71 +146,31 @@
         </div>
     </div>
 
-    <!-- 📌 JavaScript para Capturar Selecciones -->
+    <!-- Modal de Resultados del Sorteo -->
+    <div class="modal fade" id="modalResultados" tabindex="-1" aria-labelledby="modalResultadosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalResultadosLabel">Resultados del Sorteo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="modalResultadosBody">
+                    <!-- Aquí se mostrarán los resultados -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Selección de premios
-            document.querySelectorAll('.select-premio').forEach(button => {
-                button.addEventListener('click', function() {
-                    let premioId = this.dataset.id;
-                    let premioTitulo = this.dataset.titulo;
-                    let listItem = this.closest('.premio-item'); // Buscar el contenedor
-
-                    // Verificar que el contenedor exista antes de modificarlo
-                    if (!listItem) return;
-
-                    // Mostrar confirmación
-                    if (confirm(`¿Desea seleccionar el premio "${premioTitulo}" para el sorteo?`)) {
-                        let premiosSeleccionados = JSON.parse(localStorage.getItem('premiosSeleccionados')) || [];
-
-                        // Verificar si ya está seleccionado
-                        if (!premiosSeleccionados.some(p => p.id === premioId)) {
-                            premiosSeleccionados.push({
-                                id: premioId,
-                                titulo: premioTitulo
-                            });
-                            localStorage.setItem('premiosSeleccionados', JSON.stringify(premiosSeleccionados));
-
-                            // Resaltar el cuadro seleccionado
-                            listItem.classList.add('bg-success', 'text-white');
-                        }
-                        console.log("Premios seleccionados:", premiosSeleccionados);
-                    }
-                });
-            });
-
-            // Selección de participantes
-            document.querySelectorAll('.select-participante').forEach(button => {
-                button.addEventListener('click', function() {
-                    let participanteId = this.dataset.id;
-                    let participanteNombre = this.dataset.nombre;
-                    let listItem = this.closest('.participante-item'); // Buscar el contenedor
-
-                    // Verificar que el contenedor exista antes de modificarlo
-                    if (!listItem) return;
-
-                    // Mostrar confirmación
-                    if (confirm(`¿Desea seleccionar al participante "${participanteNombre}" para el sorteo?`)) {
-                        let participantesSeleccionados = JSON.parse(localStorage.getItem('participantesSeleccionados')) || [];
-
-                        // Verificar si ya está seleccionado
-                        if (!participantesSeleccionados.some(p => p.id === participanteId)) {
-                            participantesSeleccionados.push({
-                                id: participanteId,
-                                nombre: participanteNombre
-                            });
-                            localStorage.setItem('participantesSeleccionados', JSON.stringify(participantesSeleccionados));
-
-                            // Resaltar el cuadro seleccionado
-                            listItem.classList.add('bg-success', 'text-white');
-                        }
-                        console.log("Participantes seleccionados:", participantesSeleccionados);
-                    }
-                });
-            });
-        });
+        var base_url = "<?= base_url(); ?>";
+        var sorteo_id = "<?= $sorteo['id'] ?? '' ?>"; // ID del sorteo desde PHP
     </script>
 
+    <!-- 📌 Incluir el archivo JavaScript externo -->
+    <script src="<?= base_url('assets/js/sorteos.js') ?>"></script>
 
 
     <?= $this->endSection() ?>

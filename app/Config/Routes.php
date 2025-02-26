@@ -56,10 +56,11 @@ $routes->get('/admin/usuarios/eliminar/(:num)', 'UsuarioController::eliminarUsua
 
 $routes->get('/admin/sorteos', 'SorteoController::index'); // Listar sorteos
 $routes->get('/admin/sorteos/nuevo', 'SorteoController::nuevo'); // Formulario para crear un nuevo sorteo
-$routes->post('/admin/sorteos/guardar', 'SorteoController::guardar'); // Guardar un nuevo sorteo
+
 $routes->get('/admin/sorteos/realizar/(:num)', 'SorteoController::realizar/$1'); // Ejecutar un sorteo
 $routes->get('/admin/sorteos/eliminar/(:num)', 'SorteoController::eliminar/$1'); // Eliminar un sorteo
 
+$routes->post('/admin/sorteos/guardar', 'SorteoController::guardarSorteo');
 
 
 

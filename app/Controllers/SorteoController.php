@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use App\Models\SorteoModel;
 use App\Models\PremioModel;
 use App\Models\ParticipanteModel;
+use App\Models\SorteoParticipantesModel;
+use App\Models\SorteoGanadoresModel;
+use CodeIgniter\RESTful\ResourceController;
 
-class SorteoController extends Controller
+class SorteoController extends ResourceController
 {
     public function index()
     {
@@ -29,19 +31,47 @@ class SorteoController extends Controller
         return view('admin/sorteos_form', ['title' => 'Crear Nuevo Sorteo']);
     }
 
-    public function guardar()
+    /*public function guardarSorteo()
     {
-        $sorteoModel = new SorteoModel();
+        $json = $this->request->getJSON();
+        
+        if (!$json || !isset($json->sorteo_id) || !isset($json->participante_id)) {
+            return $this->response->setJSON(['error' => 'Datos inválidos'])->setStatusCode(400);
+        }
 
-        $sorteoModel->insert([
-            'titulo' => $this->request->getPost('titulo'),
-            'descripcion' => $this->request->getPost('descripcion'),
-            'fecha' => $this->request->getPost('fecha'),
-            'cantidad_ganadores' => $this->request->getPost('cantidad_ganadores'),
-            'estado' => 'pendiente'
-        ]);
+        // 📌 Instancia del modelo
+        $sorteoModel = new SorteoParticipantesModel();
+        
+        // 📌 Guardar el resultado en la tabla `sorteo_participantes`
+        $sorteoModel->guardarGanador($json->sorteo_id, $json->participante_id);
 
-        return redirect()->to('/admin/sorteos')->with('success', 'Sorteo creado exitosamente.');
+        return $this->response->setJSON(['mensaje' => 'Sorteo registrado correctamente']);
+    }*/
+
+    public function guardarSorteo()
+    {
+        $json = $this->request->getJSON();
+
+        if (!$json || !isset($json->sorteo_id) || !isset($json->participantes) || !isset($json->premios)) {
+            return $this->response->setJSON(['error' => 'Datos inválidos'])->setStatusCode(400);
+        }
+
+        $sorteoModel = new SorteoParticipantesModel();
+        $ganadoresModel = new SorteoGanadoresModel();
+
+        foreach ($json->participantes as $participante) {
+            $sorteoModel->registrarParticipante($json->sorteo_id, $participante->id);
+        }
+
+        foreach ($json->premios as $premio) {
+            if (!empty($json->participantes)) {
+                $ganador = $json->participantes[array_rand($json->participantes)];
+                $sorteoModel->registrarGanador($json->sorteo_id, $ganador->id, $premio->id);
+                $ganadoresModel->registrarGanador($json->sorteo_id, $ganador->id, $premio->id);
+            }
+        }
+
+        return $this->response->setJSON(['mensaje' => 'Sorteo registrado correctamente']);
     }
 
 
