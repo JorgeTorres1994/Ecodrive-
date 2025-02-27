@@ -11,16 +11,6 @@ class SorteoGanadoresModel extends Model
 
     protected $allowedFields = ['sorteo_id', 'participante_id', 'premio_id', 'fecha_ganado'];
 
-    // 📌 Método para guardar ganadores
-    /*public function registrarGanador($sorteo_id, $participante_id, $premio_id)
-    {
-        return $this->insert([
-            'sorteo_id'       => $sorteo_id,
-            'participante_id' => $participante_id,
-            'premio_id'       => $premio_id
-        ]);
-    }*/
-
     public function registrarGanador($sorteo_id, $participante_id, $premio_id)
     {
         $data = [

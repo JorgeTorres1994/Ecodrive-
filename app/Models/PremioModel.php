@@ -21,4 +21,9 @@ class PremioModel extends Model
     {
         return $this->where('id', $id)->first();
     }
+
+    public function getPremiosByIds(array $ids)
+    {
+        return $this->whereIn('id', $ids)->findAll();
+    }
 }

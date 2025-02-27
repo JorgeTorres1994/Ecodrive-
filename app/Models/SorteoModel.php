@@ -8,7 +8,7 @@ class SorteoModel extends Model
 {
     protected $table = 'sorteos';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['titulo', 'descripcion', 'fecha', 'cantidad_ganadores', 'estado', 'created_at'];
+    protected $allowedFields = ['titulo', 'descripcion', 'tipo', 'fecha', 'estado', 'created_at'];
 
     // Obtener todos los sorteos
     public function getAllSorteos()
@@ -20,5 +20,11 @@ class SorteoModel extends Model
     public function getSorteoById($id)
     {
         return $this->where('id', $id)->first();
+    }
+    public function setEstado(int $id, $estado)
+    {
+        $this->set('estado', $estado);
+        $this->where('id', $id);
+        $this->update();
     }
 }

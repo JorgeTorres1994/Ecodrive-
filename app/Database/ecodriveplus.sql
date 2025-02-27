@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-02-2025 a las 03:09:43
+-- Tiempo de generación: 27-02-2025 a las 00:16:12
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,23 +47,6 @@ INSERT INTO `beneficios` (`id`, `imagen`, `titulo`, `descripcion`, `sede`, `dias
 (3, 'uploads/beneficios/1740293348_ec1fcbc59c7b41ea7dcb.jpg', 'Desayuno Vital', '2x1 en desayunos americanos', 'Miraflores', 'Miércoles', '2025-02-23 06:17:54'),
 (4, 'uploads/beneficios/1740293392_d6d01c6be2b4b76a3210.jpg', 'Merienda Saludable', 'Batido de frutas + ensalada a S/20.00', 'San Isidro', 'Viernes', '2025-02-23 06:17:54'),
 (5, 'uploads/beneficios/1740381853_6380a5a68f69c8935956.jpg', 'Combo Fitness', 'Ensalada César + jugo natural a S/25.90', 'Surco', 'Domingo', '2025-02-23 06:17:54');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ganadores`
---
-
-CREATE TABLE `ganadores` (
-  `id` int(11) NOT NULL,
-  `sorteo_id` int(11) NOT NULL,
-  `premio_id` int(11) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `dni` varchar(20) DEFAULT NULL,
-  `premio_ganado` varchar(255) NOT NULL,
-  `imagen_premio` varchar(255) DEFAULT NULL,
-  `fecha` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -119,8 +102,7 @@ INSERT INTO `participantes` (`id`, `nombre_completo`, `dni`, `numero`, `tipo`, `
 (2, 'Carla Ramirez', '87654321', '956743821', 'pasajero', 'carla.ramirez@gmail.com', 60, '2025-02-22 09:08:20'),
 (3, 'Mario Torres', '45612378', '934567890', 'conductor', 'mario.torres@gmail.com', 100, '2025-02-22 09:08:20'),
 (4, 'Lucas Blas', '74185296', '912345678', 'conductor', 'lucas.blas@gmail.com', 70, '2025-02-22 09:08:20'),
-(5, 'Maricarmen Saenz', '36925814', '923456789', 'pasajero', 'mari.saenz@gmail.com', 90, '2025-02-22 09:08:20'),
-(6, 'xzcxzcxcz', '434343324', '912345678', 'pasajero', 'cvcxcadads@gmail.com', 68, '2025-02-25 21:37:06');
+(5, 'Maricarmen Saenz', '36925814', '923456789', 'pasajero', 'mari.saenz@gmail.com', 90, '2025-02-22 09:08:20');
 
 -- --------------------------------------------------------
 
@@ -168,7 +150,31 @@ CREATE TABLE `sorteos` (
 --
 
 INSERT INTO `sorteos` (`id`, `titulo`, `descripcion`, `fecha`, `cantidad_ganadores`, `estado`, `created_at`) VALUES
-(1, '¡GRAN PREMIO DEL MES!', NULL, '2025-02-27', 3, 'pendiente', '2025-02-25 08:38:36');
+(9, 'Sorteo Conductores - Marzo', 'Sorteo exclusivo para conductores activos en la plataforma.', '2025-03-10', 3, 'pendiente', '2025-02-26 22:42:13'),
+(10, 'Sorteo Pasajeros - Marzo', 'Sorteo especial para pasajeros frecuentes.', '2025-03-15', 2, 'pendiente', '2025-02-26 22:42:13'),
+(11, 'Gran Sorteo Mensual', 'Premios especiales para conductores y pasajeros.', '2025-03-20', 5, 'pendiente', '2025-02-26 22:42:13');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sorteo_ganadores`
+--
+
+CREATE TABLE `sorteo_ganadores` (
+  `id` int(11) NOT NULL,
+  `sorteo_id` int(11) NOT NULL,
+  `participante_id` int(11) NOT NULL,
+  `premio_id` int(11) NOT NULL,
+  `fecha_ganado` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sorteo_ganadores`
+--
+
+INSERT INTO `sorteo_ganadores` (`id`, `sorteo_id`, `participante_id`, `premio_id`, `fecha_ganado`) VALUES
+(14, 11, 1, 1, '2025-02-26 17:42:49'),
+(15, 11, 3, 1, '2025-02-26 18:12:44');
 
 -- --------------------------------------------------------
 
@@ -180,8 +186,21 @@ CREATE TABLE `sorteo_participantes` (
   `id` int(11) NOT NULL,
   `sorteo_id` int(11) NOT NULL,
   `participante_id` int(11) NOT NULL,
-  `puntaje` int(11) NOT NULL
+  `premio_id` int(11) DEFAULT NULL,
+  `es_ganador` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sorteo_participantes`
+--
+
+INSERT INTO `sorteo_participantes` (`id`, `sorteo_id`, `participante_id`, `premio_id`, `es_ganador`) VALUES
+(18, 11, 1, 1, 1),
+(19, 11, 3, 1, 1),
+(20, 11, 4, NULL, 0),
+(21, 11, 1, NULL, 0),
+(22, 11, 3, 1, 1),
+(23, 11, 4, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -220,14 +239,6 @@ ALTER TABLE `beneficios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `ganadores`
---
-ALTER TABLE `ganadores`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sorteo_id` (`sorteo_id`),
-  ADD KEY `premio_id` (`premio_id`);
-
---
 -- Indices de la tabla `multimedia`
 --
 ALTER TABLE `multimedia`
@@ -254,12 +265,22 @@ ALTER TABLE `sorteos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `sorteo_ganadores`
+--
+ALTER TABLE `sorteo_ganadores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sorteo_id` (`sorteo_id`),
+  ADD KEY `participante_id` (`participante_id`),
+  ADD KEY `premio_id` (`premio_id`);
+
+--
 -- Indices de la tabla `sorteo_participantes`
 --
 ALTER TABLE `sorteo_participantes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sorteo_id` (`sorteo_id`),
-  ADD KEY `participante_id` (`participante_id`);
+  ADD KEY `participante_id` (`participante_id`),
+  ADD KEY `premio_id` (`premio_id`);
 
 --
 -- Indices de la tabla `usuarios_admin`
@@ -277,12 +298,6 @@ ALTER TABLE `usuarios_admin`
 --
 ALTER TABLE `beneficios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `ganadores`
---
-ALTER TABLE `ganadores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `multimedia`
@@ -306,13 +321,19 @@ ALTER TABLE `premios`
 -- AUTO_INCREMENT de la tabla `sorteos`
 --
 ALTER TABLE `sorteos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `sorteo_ganadores`
+--
+ALTER TABLE `sorteo_ganadores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `sorteo_participantes`
 --
 ALTER TABLE `sorteo_participantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_admin`
@@ -325,18 +346,20 @@ ALTER TABLE `usuarios_admin`
 --
 
 --
--- Filtros para la tabla `ganadores`
+-- Filtros para la tabla `sorteo_ganadores`
 --
-ALTER TABLE `ganadores`
-  ADD CONSTRAINT `ganadores_ibfk_1` FOREIGN KEY (`sorteo_id`) REFERENCES `sorteos` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ganadores_ibfk_2` FOREIGN KEY (`premio_id`) REFERENCES `premios` (`id`) ON DELETE CASCADE;
+ALTER TABLE `sorteo_ganadores`
+  ADD CONSTRAINT `sorteo_ganadores_ibfk_1` FOREIGN KEY (`sorteo_id`) REFERENCES `sorteos` (`id`),
+  ADD CONSTRAINT `sorteo_ganadores_ibfk_2` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id`),
+  ADD CONSTRAINT `sorteo_ganadores_ibfk_3` FOREIGN KEY (`premio_id`) REFERENCES `premios` (`id`);
 
 --
 -- Filtros para la tabla `sorteo_participantes`
 --
 ALTER TABLE `sorteo_participantes`
-  ADD CONSTRAINT `sorteo_participantes_ibfk_1` FOREIGN KEY (`sorteo_id`) REFERENCES `sorteos` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `sorteo_participantes_ibfk_2` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `sorteo_participantes_ibfk_1` FOREIGN KEY (`sorteo_id`) REFERENCES `sorteos` (`id`),
+  ADD CONSTRAINT `sorteo_participantes_ibfk_2` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id`),
+  ADD CONSTRAINT `sorteo_participantes_ibfk_3` FOREIGN KEY (`premio_id`) REFERENCES `premios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

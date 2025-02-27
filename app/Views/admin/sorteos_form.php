@@ -13,12 +13,16 @@
         <textarea name="descripcion" class="form-control" required></textarea>
     </div>
     <div class="mb-3">
-        <label class="form-label">Fecha:</label>
-        <input type="date" name="fecha" class="form-control" required>
+        <label class="form-label">Tipo:</label>
+        <select name="tipo" class="form-control" required>
+            <option value="conductor">Conductor</option>
+            <option value="pasajero">Pasajero</option>
+            <option value="gran_premio">Gran premio</option>
+        </select>
     </div>
     <div class="mb-3">
-        <label class="form-label">Cantidad de Ganadores:</label>
-        <input type="number" name="cantidad_ganadores" class="form-control" required>
+        <label class="form-label">Fecha:</label>
+        <input type="date" name="fecha" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
 </form>

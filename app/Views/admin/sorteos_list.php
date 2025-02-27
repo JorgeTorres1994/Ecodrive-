@@ -3,10 +3,18 @@
 <?= $this->section('content') ?>
 <h2 class="text-center my-4">Gestión de Sorteos</h2>
 
+<!-- Mensaje de éxito -->
+<?php if (session()->getFlashdata('success')) : ?>
+    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+<?php endif; ?>
+
+<!-- Botón para agregar nuevo premio -->
+<a href="<?= base_url('/admin/sorteos/nuevo') ?>" class="btn btn-primary mb-3">Agregar Sorteo</a>
+
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8" style=" text-overflow: ellipsis; overflow-y:scroll; height: 600px;">
         <?php foreach ($sorteos as $sorteo): ?>
-            <div class="card mb-3">
+            <div class="card mb-3" >
                 <div class="card-body">
                     <h4><?= $sorteo['titulo'] ?></h4>
                     <p><strong>Fecha:</strong> <?= $sorteo['fecha'] ?></p>
@@ -15,9 +23,12 @@
                             <?= ucfirst($sorteo['estado']) ?>
                         </span>
                     </p>
+                    <p>
+                        <strong>Tipo sorteo:</strong> <span class="badge bg-primary"><?= $sorteo['tipo'] ?></span>
+                    </p>
                     <!-- <a href="= base_url('/admin/sorteos/realizar/' . $sorteo['id']) ?>" class="btn btn-success">Realizar Sorteo</a> -->
-                    <button id="btn-realizar-sorteo" class="btn btn-success">Realizar Sorteo</button>
-                    <a href="<?= base_url('/admin/sorteos/eliminar/' . $sorteo['id']) ?>" class="btn btn-danger">Eliminar</a>
+                    <button class="btn btn-success" <?= $sorteo['estado'] == "realizado" ? "disabled" : "" ?> onclick="realizarSorteo('<?= $sorteo['id'] ?>');">Realizar Sorteo</button>
+                    <!-- <a href="= base_url('/admin/sorteos/eliminar/' . $sorteo['id']) ?>" class="btn btn-danger">Eliminar</a> -->
                 </div>
             </div>
         <?php endforeach; ?>
