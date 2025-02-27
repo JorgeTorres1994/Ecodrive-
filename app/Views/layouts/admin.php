@@ -55,7 +55,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/beneficios') ?>"><i class="fa fa-hand-holding-heart"></i> Beneficios</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/sorteos') ?>"><i class="fa fa-ticket-alt"></i> Sorteos</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/participantes') ?>"><i class="fa fa-users"></i> Participantes</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/resultados') ?>"><i class="fa fa-trophy"></i> Resultados</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/ganadores') ?>"><i class="fa fa-trophy"></i> Ganadores</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/multimedia') ?>"><i class="fa fa-image"></i> Multimedia</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="<?= base_url('/admin/usuarios') ?>"><i class="fa fa-user-shield"></i> Admins</a></li>
             </ul>

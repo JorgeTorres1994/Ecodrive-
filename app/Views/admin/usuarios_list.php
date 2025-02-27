@@ -7,14 +7,12 @@
     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
 <?php endif; ?>
 
-<link rel="stylesheet" href="<?= base_url('assets/css/usuarios_list.css'); ?>">
-
 <a href="<?= base_url('/admin/usuarios/nuevo') ?>" class="btn btn-primary mb-3">Agregar Administrador</a>
 
-<!-- Contenedor responsive para la tabla -->
+<!-- Tabla de Administradores -->
 <div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
+    <table class="table table-striped table-hover text-center align-middle shadow-sm border rounded">
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>

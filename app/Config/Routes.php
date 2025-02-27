@@ -36,10 +36,6 @@ $routes->get('/admin/participantes/editar/(:num)', 'ParticipanteController::edit
 $routes->post('/admin/participantes/actualizar/(:num)', 'ParticipanteController::actualizarParticipante/$1');
 $routes->get('/admin/participantes/eliminar/(:num)', 'ParticipanteController::eliminarParticipante/$1');
 
-
-$routes->get('/admin/ganadores', 'AdminController::ganadores');
-$routes->post('/admin/ganadores/guardar', 'AdminController::guardarGanador');
-
 $routes->get('/admin/multimedia', 'MultimediaController::multimedia');
 $routes->get('/admin/multimedia/nuevo', 'MultimediaController::nuevoMultimedia');
 $routes->post('/admin/multimedia/guardar', 'MultimediaController::guardarMultimedia');
@@ -63,5 +59,5 @@ $routes->get('/admin/sorteos/nuevo', 'SorteoController::nuevo'); // Formulario p
 $routes->post('/admin/sorteos/realizar', 'SorteoController::realizarSorteo');
 $routes->post('/admin/sorteos/guardar', 'SorteoController::guardarSorteo'); // Guardar un nuevo sorteo
 
-
+$routes->get('/admin/ganadores', 'GanadoresController::index');
 
