@@ -45,18 +45,5 @@
     <h3 class="mt-5 text-center">Sorteos por Mes</h3>
     <canvas id="chartSorteos"></canvas>
 
-    <script>
-        var ctx = document.getElementById('chartSorteos').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
-                datasets: [{
-                    label: 'Sorteos Realizados',
-                    data: [5, 7, 3, 8, 10],
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
-                }]
-            }
-        });
-    </script>
+    
 <?= $this->endSection() ?>

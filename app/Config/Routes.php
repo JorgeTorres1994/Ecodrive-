@@ -42,12 +42,16 @@ $routes->get('/admin/multimedia/editar/(:num)', 'MultimediaController::editarMul
 $routes->post('/admin/multimedia/actualizar/(:num)', 'MultimediaController::actualizarMultimedia/$1');
 $routes->get('/admin/multimedia/eliminar/(:num)', 'MultimediaController::eliminarMultimedia/$1');
 
-$routes->get('/admin/usuarios', 'UsuarioController::usuarios');
-$routes->get('/admin/usuarios/nuevo', 'UsuarioController::nuevoUsuario');
-$routes->post('/admin/usuarios/guardar', 'UsuarioController::guardarUsuario');
-$routes->get('/admin/usuarios/editar/(:num)', 'UsuarioController::editarUsuario/$1');
-$routes->post('/admin/usuarios/actualizar/(:num)', 'UsuarioController::actualizarUsuario/$1');
-$routes->get('/admin/usuarios/eliminar/(:num)', 'UsuarioController::eliminarUsuario/$1');
+
+
+$routes->group("/admin/usuarios", ["cors:default"], function ($routes) {
+    $routes->get('/', 'UsuarioController::usuarios');
+    $routes->get('/nuevo', 'UsuarioController::nuevoUsuario');
+    $routes->post('/guardar', 'UsuarioController::guardarUsuario');
+    $routes->get('/editar/(:num)', 'UsuarioController::editarUsuario/$1');
+    $routes->post('/actualizar/(:num)', 'UsuarioController::actualizarUsuario/$1');
+    $routes->get('/eliminar/(:num)', 'UsuarioController::eliminarUsuario/$1');
+});
 
 $routes->get('/admin/sorteos', 'SorteoController::index'); // Listar sorteos
 $routes->get('/admin/sorteos/nuevo', 'SorteoController::nuevo'); // Formulario para crear un nuevo sorteo
@@ -55,5 +59,7 @@ $routes->get('/admin/sorteos/nuevo', 'SorteoController::nuevo'); // Formulario p
 $routes->post('/admin/sorteos/realizar', 'SorteoController::realizarSorteo');
 $routes->post('/admin/sorteos/guardar', 'SorteoController::guardarSorteo'); // Guardar un nuevo sorteo
 
-$routes->get('/admin/ganadores', 'GanadoresController::index');
 
+$routes->group("/admin/ganadores", ["cors:default"], function ($routes) {
+    $routes->get('/', 'GanadoresController::index');
+});

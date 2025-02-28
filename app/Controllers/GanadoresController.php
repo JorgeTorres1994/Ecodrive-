@@ -13,7 +13,7 @@ class GanadoresController extends Controller
         $ganadores = $model->obtenerGanadores(); // Obtener ganadores desde el modelo
 
         // Si la solicitud es AJAX o se solicita JSON explícitamente, devolver JSON
-        if ($this->request->isAJAX() || strpos($this->request->getHeaderLine('Accept'), 'application/json') !== false) {
+        if ($this->request->isAJAX() || $this->request->getHeaderLine('Accept') === 'application/json') {
             return $this->response->setStatusCode(200)->setJSON(['data' => $ganadores]);
         }
 

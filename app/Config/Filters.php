@@ -71,7 +71,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            // 'csrf',
+            'csrf' => ['except' => ['login*']], // Evitar CSRF en APIs
             'cors' // Activa CORS para todas las rutas
             // 'invalidchars',
         ],
@@ -105,5 +105,7 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => ['before' => ['admin/*']]
+    ];
 }

@@ -17,6 +17,9 @@ class AuthFilter implements FilterInterface
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        // No hacer nada después de la solicitud
+        // Evita volver al dashboard tras cerrar sesión con el botón "atrás"
+        $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->setHeader('Pragma', 'no-cache');
+        $response->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT');
     }
 }
