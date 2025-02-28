@@ -41,6 +41,7 @@ class PremiosController extends Controller
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
             'tipo' => $this->request->getPost('tipo'),
+            'dia' => $this->request->getPost('dia'),
             'imagen' => $nombreImagen ? 'uploads/premios/' . $nombreImagen : null
         ]);
 
@@ -74,7 +75,8 @@ class PremiosController extends Controller
         $updateData = [
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'tipo' => $this->request->getPost('tipo')
+            'tipo' => $this->request->getPost('tipo'),
+            'dia' => $this->request->getPost('dia'),
         ];
 
         // Manejo de imagen

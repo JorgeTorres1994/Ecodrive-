@@ -16,7 +16,11 @@ class AdminController extends Controller
         $data['totalPremios'] = $db->table('premios')->countAll();
         $data['totalSorteos'] = $db->table('sorteos')->countAll();
         $data['totalParticipantes'] = $db->table('sorteo_participantes')->countAll();
-        $data['totalGanadores'] = $db->table('sorteo_ganadores')->countAll();
+        //$data['totalGanadores'] = $db->table('sorteo_ganadores')->countAll();
+        $data['totalGanadores'] = $db->table('sorteo_participantes')
+                             ->where('es_ganador', 1)
+                             ->countAllResults();
+
 
         return view('admin/dashboard', $data);
     }

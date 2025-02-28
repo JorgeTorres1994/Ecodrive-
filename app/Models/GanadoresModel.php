@@ -16,6 +16,7 @@ class GanadoresModel extends Model
             ->join('sorteos', 'sorteos.id = sorteo_participantes.sorteo_id')
             ->join('participantes', 'participantes.id = sorteo_participantes.participante_id')
             ->join('premios', 'premios.id = sorteo_participantes.premio_id', 'left')
+            ->orderBy('sorteo_participantes.id', 'ASC')
             ->findAll();
     }
 }

@@ -20,6 +20,7 @@
                 <th>Título</th>
                 <th>Descripción</th>
                 <th>Tipo</th>
+                <th>Día</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
@@ -31,6 +32,7 @@
                 <td><?= $premio['titulo'] ?></td>
                 <td><?= $premio['descripcion'] ?></td>
                 <td><?= ucfirst($premio['tipo']) ?></td>
+                <td><?= $premio['dia'] ?></td>
                 <td>
                     <?php if (!empty($premio['imagen'])) : ?>
                         <img src="<?= base_url($premio['imagen']) ?>" class="img-thumbnail" width="60" height="60">

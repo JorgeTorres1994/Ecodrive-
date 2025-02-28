@@ -34,8 +34,8 @@
         <div class="col-md-3">
             <div class="card bg-danger text-white">
                 <div class="card-body">
-                    <h3><?= $totalGanadores ?></h3>
-                    <p>Ganadores Totales</p>
+                <h3><?= $totalGanadores ?></h3>
+                <p>Total de Ganadores:</p>
                 </div>
             </div>
         </div>

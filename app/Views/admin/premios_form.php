@@ -20,6 +20,10 @@
         </select>
     </div>
     <div class="mb-3">
+        <label class="form-label">Día:</label>
+        <input type="text" name="dia" class="form-control" required>
+    </div>
+    <div class="mb-3">
         <label class="form-label">Imagen:</label>
         <input type="file" name="imagen" class="form-control">
     </div>

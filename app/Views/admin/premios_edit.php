@@ -24,6 +24,11 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">Día:</label>
+        <textarea name="dia" class="form-control" required><?= esc($premio['dia']) ?></textarea>
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">Imagen Actual:</label><br>
         <?php if (!empty($premio['imagen'])) : ?>
             <img src="<?= base_url($premio['imagen']) ?>" width="100"><br>

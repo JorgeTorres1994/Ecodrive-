@@ -28,7 +28,6 @@ $routes->get('/admin/beneficios/editar/(:num)', 'BeneficiosController::editarBen
 $routes->post('/admin/beneficios/actualizar/(:num)', 'BeneficiosController::actualizarBeneficio/$1');
 $routes->get('/admin/beneficios/eliminar/(:num)', 'BeneficiosController::eliminarBeneficio/$1');
 
-
 $routes->get('/admin/participantes', 'ParticipanteController::participantes');
 $routes->get('/admin/participantes/nuevo', 'ParticipanteController::nuevoParticipante');
 $routes->post('/admin/participantes/guardar', 'ParticipanteController::guardarParticipante');
@@ -52,9 +51,6 @@ $routes->get('/admin/usuarios/eliminar/(:num)', 'UsuarioController::eliminarUsua
 
 $routes->get('/admin/sorteos', 'SorteoController::index'); // Listar sorteos
 $routes->get('/admin/sorteos/nuevo', 'SorteoController::nuevo'); // Formulario para crear un nuevo sorteo
-
-//$routes->get('/admin/sorteos/realizar/(:num)', 'SorteoController::realizar/$1'); // Ejecutar un sorteo
-//$routes->get('/admin/sorteos/eliminar/(:num)', 'SorteoController::eliminar/$1'); // Eliminar un sorteo
 
 $routes->post('/admin/sorteos/realizar', 'SorteoController::realizarSorteo');
 $routes->post('/admin/sorteos/guardar', 'SorteoController::guardarSorteo'); // Guardar un nuevo sorteo

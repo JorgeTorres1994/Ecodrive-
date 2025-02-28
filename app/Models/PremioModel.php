@@ -8,7 +8,7 @@ class PremioModel extends Model
 {
     protected $table = 'premios';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['imagen', 'titulo', 'descripcion', 'tipo'];
+    protected $allowedFields = ['imagen', 'titulo', 'descripcion', 'tipo', 'dia'];
 
     // Obtener todos los premios
     public function getAllPremios()
